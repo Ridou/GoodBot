@@ -8,10 +8,7 @@ const RaidDetail = ({item, index}) => {
 	} else {
 		return (
 			<View style={viewStyle} key={index}>
-				<Text style={textStyle}>{item.Raid}</Text>
-				<Text style={textStyle}>{item.RaidTitle}</Text>
-				<Text style={textStyle}>{item.RaidDate}</Text>
-				<Text style={textStyle}>Reserve:{item.Reserve}</Text>
+				<Text style={textStyle}>{item.name}</Text>
 			</View>
 		);
 	}

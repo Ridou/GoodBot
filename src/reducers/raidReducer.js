@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import {FETCH_RAIDS} from '../actions';
 
 const raidReducer = (state = {}, action) => {
 	switch (action.type) {

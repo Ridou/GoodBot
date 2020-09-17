@@ -7,17 +7,11 @@
  */
 
 import React, {Component} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {ScrollView} from 'react-native';
 import {AppRegistry} from 'react-native';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import ReduxThunk from 'redux-thunk';
 
 import reducers from './src/reducers';
 import RaidList from './src/components/RaidList';
@@ -25,8 +19,9 @@ import DiscordAuth from './src/components/DiscordAuth';
 import {Header} from './src/components/common';
 
 const store = createStore(
-  reducers,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  reducers, {},
+  compose(applyMiddleware(ReduxThunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 class App extends Component {

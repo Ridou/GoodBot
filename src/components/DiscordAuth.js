@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import {signIn, signOut} from '../actions';
+import {signIn, signOut, fetchMemberId, fetchGuildId, fetchUserId} from '../actions';
 import {authorize, refresh, revoke} from 'react-native-app-auth';
 import Config from 'react-native-config';
 import {Button} from './common';
@@ -10,7 +10,7 @@ config = {
 	clientId: Config.CLIENT_ID,
 	clientSecret: Config.CLIENT_SECRET,
 	redirectUrl: 'com.PreBot://redirect',
-	scopes: ['email', 'identify'],
+	scopes: ['guilds', 'identify'],
 	serviceConfiguration: {
 		authorizationEndpoint: 'https://discord.com/api/oauth2/authorize',
 		tokenEndpoint: 'https://discordapp.com/api/oauth2/token',
@@ -22,8 +22,11 @@ class DiscordAuth extends Component {
 	async _onLoginDiscord() {
 		try {
 			const result = await authorize(config);
-			console.log({result});
-			this.props.signIn(result.accessToken);
+			// this.props.fetchUserId(result.accessToken);
+			// this.props.fetchGuildMember(result.accessToken)
+			// this.props.fetchGuildId(result.accessToken);
+			// this.props.fetchMemberId(result.accessToken, '612407313474650126')
+			this.props.signIn(result.accessToken, result.refreshToken);
 		} catch (error) {
 			console.log('Request error', error);
 		}
@@ -39,7 +42,8 @@ class DiscordAuth extends Component {
 	}
 	async _onRevokeDiscord() {
 		await revoke(config, {
-			tokenToRevoke: this.props.userId,
+			tokenToRevoke: this.props.accessToken,
+			tokenToRevoke: this.props.refreshToken,
 			sendClientId: true,
 		});
 		this.props.signOut();
@@ -63,7 +67,7 @@ class DiscordAuth extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {isSignedIn: state.auth.isSignedIn, userId: state.auth.userId};
+	return {isSignedIn: state.auth.isSignedIn, accessToken: state.auth.accessToken, refreshToken: state.auth.refreshToken};
 };
 
-export default connect(mapStateToProps, {signIn, signOut})(DiscordAuth);
+export default connect(mapStateToProps, {signIn, signOut, fetchMemberId, fetchGuildId, fetchUserId})(DiscordAuth);
