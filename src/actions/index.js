@@ -68,12 +68,49 @@ export const fetchCharacterInfo = (accessToken) => {
 					gId,
 			)
 			.then((response) => {
-				// const data = _.map(response.data);
-				const data = response.data
-				const character = _.map(data, (x)=> _.pick(x, ['name', 'class', 'role']))
-				const raids = _.flatten(data.map((x) => x.signups.map((y) => y.raid)), null)
+				const data = response.data;
+				const character = _.map(data, (x) =>
+					_.pick(x, ['name', 'class', 'role']),
+				);
+				const signups = _.flatten(
+					_.map(data, (x) => x.signups.map((y) => _.pick(y, ['player']))),
+				);
+				const raidData = _.flatten(
+					data.map((x) => x.signups.map((y) => y.raid)),
+					null,
+				);
+				const raids = _.map(raidData, (x, y) =>
+					_.assign(x, {name: signups[y].player}),
+				);
 				dispatch({type: 'FETCH_CHARACTER', payload: character});
 				dispatch({type: 'FETCH_RAIDS', payload: raids});
 			});
 	};
 };
+
+// export const testRaid = (accessToken) => {
+// 	return async (dispatch, getState) => {
+// 		const fetchRaid = await axios
+// 			.get(
+// 				'https://goodbot.me/api/info/Milagros?id=93398761979514880&key=0c8e7d80-ee6b-4e99-9ea9-c5f0c7baf849&guildID=612407313474650126'
+// 			)
+// 			.then((response) => {
+// 				const data = response.data;
+// 				const character = _.map(data, (x) =>
+// 					_.pick(x, ['name', 'class', 'role']),
+// 				);
+// 				const signups = _.flatten(
+// 					_.map(data, (x) => x.signups.map((y) => _.pick(y, ['player']))),
+// 				);
+// 				const raidData = _.flatten(
+// 					data.map((x) => x.signups.map((y) => y.raid)),
+// 					null,
+// 				);
+// 				const raids = _.map(raidData, (x, y) =>
+// 					_.assign(x, {name: signups[y].player}),
+// 				);
+// 				dispatch({type: 'FETCH_CHARACTER', payload: character});
+// 				dispatch({type: 'FETCH_RAIDS', payload: raids});
+// 			});
+// 	};
+// };

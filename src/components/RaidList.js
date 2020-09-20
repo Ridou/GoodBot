@@ -17,10 +17,16 @@ class RaidList extends Component {
 		// https://goodbot.me/api/nick?id=93398761979514880&key=0c8e7d80-ee6b-4e99-9ea9-c5f0c7baf849&guildID=612407313474650126&memberID=93398761979514880
 	}
 	renderRaids() {
-		// console.log('Name: ', this.props.nick)
-		// console.log('GuildId: ', this.props.guildId)
-		// this.props.testRaid(this.props.nick, this.props.guildId)
-		// console.log(this.props.raids)
+		console.log('RAID OBJECT',this.props.raids)
+		// const eachItem = _.each(this.props.raids, (item) => {
+		// 	console.log('item: ', item.id);
+		// })
+		return (this.props.raids.map( (item, index) => {
+			return <RaidDetail item={item} key={index} ></RaidDetail>
+		}))
+		// return this.props.raids.map((i, u) => {
+		// 	console.log(i);
+		// })
 		// return this.props.raids.map((raid) => console.log(raid))
 		// if there is data
 		// show all raids
@@ -30,10 +36,11 @@ class RaidList extends Component {
 		// 	x.signups.map((i,u) =>
 		// 		<RaidDetail item={i} key={u} ></RaidDetail>
 		// ));
+
 	}
 
 	render() {
-		if (this.props.isSignedIn === null || this.props.nick === null || this.props.guildId === null) {
+		if (this.props.isSignedIn === null || this.props.raids === null) {
 			return <Text> Please login to Discord </Text>;
 		} else {
 			return <View>{this.renderRaids()}</View>;
@@ -42,7 +49,7 @@ class RaidList extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {raids: state.raids, isSignedIn: state.auth.isSignedIn, nick: state.characters.nick, guildId: state.characters.guildId};
+	return {raids: state.characters.raids, isSignedIn: state.auth.isSignedIn, nick: state.characters.nick};
 };
 
 export default connect(mapStateToProps, {testRaid, fetchCharacterInfo})(RaidList);
