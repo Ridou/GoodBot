@@ -1,24 +1,30 @@
 import _ from 'lodash'
 
 const defaultState = {
-	name: null,
-	guildId: null
+	nick: null,
+	guildId: null,
+	userId: null,
+	info: null,
 };
 
 const characterReducer = (state = defaultState, action) => {
-	console.log('action',action);
+	console.log('action: ', action)
     switch (action.type) {
-		case 'FETCH_CHARACTER':
+		case 'FETCH_NICK':
 			return {
-				...state, ...(_.mapKeys(action.payload,'id'))
-			};
-		case 'FETCH_NAME':
-			return {
-				...state, name: action.payload
+				...state, nick: action.payload
 			}
 		case 'FETCH_GUILD':
 			return {
 				...state, guildId: action.payload
+			}
+		case 'FETCH_USER_ID':
+			return {
+				...state, userId: action.payload
+			}
+		case 'FETCH_CHARACTER':
+			return {
+				...state, info: action.payload
 			}
 
         default:

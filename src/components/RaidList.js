@@ -1,44 +1,40 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import _ from 'lodash';
 
 import RaidDetail from './RaidDetail';
-import {fetchCharacter, fetchName} from '../actions';
+import {testRaid, fetchCharacterInfo} from '../actions';
 
 // Need character name to access individual raids
 
 class RaidList extends Component {
 	componentDidMount() {
+	// this.props.testRaid()
 		// this.props.fetchName(this.props.guildId, 93398761979514880);
 		// this.props.fetchCharacter(this.props.name, 612407313474650126);
-		// this.props.fetchName(612407313474650126, 93398761979514880);
+		// this.props.fetchName(, 93398761979514880);
 		// https://goodbot.me/api/nick?id=93398761979514880&key=0c8e7d80-ee6b-4e99-9ea9-c5f0c7baf849&guildID=612407313474650126&memberID=93398761979514880
 	}
 	renderRaids() {
-		// this.props.fetchName(this.props.guildId, 93398761979514880);
-		// const config = {
-		// 	headers: {Authorization: `Bearer ${this.props.accessToken}`}
-		// }
-		// const request = axios
-		// 	.get('https://discordapp.com/api/users/@me/guilds/', config})
-		// 		.then((response)=>
-		// 			console.log('Request: ', response);
-		// 		)
-		// this.props.fetchCharacter(this.props.name, 612407313474650126);
+		// console.log('Name: ', this.props.nick)
+		// console.log('GuildId: ', this.props.guildId)
+		// this.props.testRaid(this.props.nick, this.props.guildId)
+		// console.log(this.props.raids)
+		// return this.props.raids.map((raid) => console.log(raid))
 		// if there is data
 		// show all raids
 		// else
 		// characterselected = character raid data
-		// return this.state.raidData.map(x =>
+		// return this.props.raids.map(x =>
 		// 	x.signups.map((i,u) =>
 		// 		<RaidDetail item={i} key={u} ></RaidDetail>
 		// ));
 	}
 
 	render() {
-		if (this.props.accessToken === null) {
-			return <Text> Loading </Text>;
+		if (this.props.isSignedIn === null || this.props.nick === null || this.props.guildId === null) {
+			return <Text> Please login to Discord </Text>;
 		} else {
 			return <View>{this.renderRaids()}</View>;
 		}
@@ -46,10 +42,7 @@ class RaidList extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {name: state.characters.name, accessToken: state.auth.accessToken, guildId: state.characters.guildId};
+	return {raids: state.raids, isSignedIn: state.auth.isSignedIn, nick: state.characters.nick, guildId: state.characters.guildId};
 };
 
-export default connect(mapStateToProps, {
-	fetchCharacter,
-	fetchName,
-})(RaidList);
+export default connect(mapStateToProps, {testRaid, fetchCharacterInfo})(RaidList);

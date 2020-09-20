@@ -1,6 +1,5 @@
 const defaultState = {
 	isSignedIn: null,
-	userId: null,
 	accessToken: null,
 	refreshToken: null
 };

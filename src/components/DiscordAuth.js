@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Text, View} from 'react-native';
 import {connect} from 'react-redux';
-import {signIn, signOut, fetchMemberId, fetchGuildId, fetchUserId} from '../actions';
+import {signIn, signOut, fetchCharacterInfo} from '../actions';
 import {authorize, refresh, revoke} from 'react-native-app-auth';
 import Config from 'react-native-config';
 import {Button} from './common';
@@ -22,10 +22,7 @@ class DiscordAuth extends Component {
 	async _onLoginDiscord() {
 		try {
 			const result = await authorize(config);
-			// this.props.fetchUserId(result.accessToken);
-			// this.props.fetchGuildMember(result.accessToken)
-			// this.props.fetchGuildId(result.accessToken);
-			// this.props.fetchMemberId(result.accessToken, '612407313474650126')
+			this.props.fetchCharacterInfo(result.accessToken)
 			this.props.signIn(result.accessToken, result.refreshToken);
 		} catch (error) {
 			console.log('Request error', error);
@@ -70,4 +67,4 @@ const mapStateToProps = (state) => {
 	return {isSignedIn: state.auth.isSignedIn, accessToken: state.auth.accessToken, refreshToken: state.auth.refreshToken};
 };
 
-export default connect(mapStateToProps, {signIn, signOut, fetchMemberId, fetchGuildId, fetchUserId})(DiscordAuth);
+export default connect(mapStateToProps, {signIn, signOut, fetchCharacterInfo})(DiscordAuth);
