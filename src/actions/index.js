@@ -57,15 +57,16 @@ export const fetchCharacterInfo = (accessToken) => {
 			});
 		const nick = getState().characters.nick;
 		const fetchRaid = await axios
-			.get(
-				'https://goodbot.me/api/info/' +
-					nick +
-					'?id=' +
-					Config.GOOD_BOT_ID +
-					'&key=' +
-					Config.GOOD_BOT_KEY +
-					'&guildID=' +
-					gId,
+			.get('https://goodbot.me/api/info/Setback?id=93398761979514880&key=0c8e7d80-ee6b-4e99-9ea9-c5f0c7baf849&guildID=612407313474650126'
+				// using Setback details for testing
+				// 'https://goodbot.me/api/info/' +
+				// 	nick +
+				// 	'?id=' +
+				// 	Config.GOOD_BOT_ID +
+				// 	'&key=' +
+				// 	Config.GOOD_BOT_KEY +
+				// 	'&guildID=' +
+				// 	gId,
 			)
 			.then((response) => {
 				const data = response.data;

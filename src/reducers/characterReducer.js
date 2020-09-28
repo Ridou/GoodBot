@@ -9,7 +9,6 @@ const defaultState = {
 };
 
 const characterReducer = (state = defaultState, action) => {
-	console.log('action: ', action);
 	switch (action.type) {
 		case 'FETCH_NICK':
 			return {

@@ -15,6 +15,7 @@ import ReduxThunk from 'redux-thunk';
 
 import reducers from './src/reducers';
 import RaidList from './src/components/RaidList';
+import CharacterInfo from './src/components/CharacterInfo';
 import DiscordAuth from './src/components/DiscordAuth';
 import {Header} from './src/components/common';
 
@@ -33,6 +34,7 @@ class App extends Component {
       <Provider store={store}>
         <ScrollView>
           <Header headerText="GoodBot" />
+          <CharacterInfo />
           <RaidList />
           <DiscordAuth />
         </ScrollView>

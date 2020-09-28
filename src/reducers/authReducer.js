@@ -12,7 +12,7 @@ const authReducer = (state = defaultState, action) => {
 			};
 		case 'SIGN_OUT':
 			return {
-				...state, isSignedIn: false, accessToken: null, refreshToken: null
+				...state, isSignedIn: null, accessToken: null, refreshToken: null
 			};
 
 		default:

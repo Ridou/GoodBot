@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, Image} from 'react-native';
 import {connect} from 'react-redux';
-import {signIn, signOut, fetchCharacterInfo} from '../actions';
 import {authorize, refresh, revoke} from 'react-native-app-auth';
 import Config from 'react-native-config';
+
+import {signIn, signOut, fetchCharacterInfo} from '../actions';
 import {Button} from './common';
+import {DiscordLogin} from '../images';
 
 config = {
 	clientId: Config.CLIENT_ID,
@@ -22,7 +24,7 @@ class DiscordAuth extends Component {
 	async _onLoginDiscord() {
 		try {
 			const result = await authorize(config);
-			this.props.fetchCharacterInfo(result.accessToken)
+			this.props.fetchCharacterInfo(result.accessToken);
 			this.props.signIn(result.accessToken, result.refreshToken);
 		} catch (error) {
 			console.log('Request error', error);
@@ -47,16 +49,22 @@ class DiscordAuth extends Component {
 	}
 
 	render() {
+		const {viewStyle, buttonStyle, imageStyle} = styles;
 		if (this.props.isSignedIn) {
 			return (
-				<View>
-					<Button onPress={() => this._onRevokeDiscord()}>Sign Out</Button>
+				//If User is Signed in, make a hamburger menu with option to sign out
+				<View style={viewStyle}>
+					<Button onPress={() => this._onRevokeDiscord()}>
+						<Text> Sign Out </Text>
+					</Button>
 				</View>
 			);
 		} else {
 			return (
-				<View>
-					<Button onPress={() => this._onLoginDiscord()}>Sign In</Button>
+				<View style={viewStyle}>
+					<Button style={buttonStyle} onPress={() => this._onLoginDiscord()}>
+						<Image style={imageStyle} source={DiscordLogin} />
+					</Button>
 				</View>
 			);
 		}
@@ -64,7 +72,33 @@ class DiscordAuth extends Component {
 }
 
 const mapStateToProps = (state) => {
-	return {isSignedIn: state.auth.isSignedIn, accessToken: state.auth.accessToken, refreshToken: state.auth.refreshToken};
+	return {
+		isSignedIn: state.auth.isSignedIn,
+		accessToken: state.auth.accessToken,
+		refreshToken: state.auth.refreshToken,
+	};
 };
 
-export default connect(mapStateToProps, {signIn, signOut, fetchCharacterInfo})(DiscordAuth);
+const styles = {
+	viewStyle: {
+		width: '100%',
+		position: 'absolute',
+		flex: 1,
+		bottom: 10,
+		flexDirection: 'column',
+		height: 80,
+		alignItems: 'center',
+		justifyContent: 'center'
+
+	},
+	imageStyle: {
+		flex: 1.9,
+		height: 0,
+		justifyContent: 'center',
+		resizeMode: 'contain',
+	},
+};
+
+export default connect(mapStateToProps, {signIn, signOut, fetchCharacterInfo})(
+	DiscordAuth,
+);

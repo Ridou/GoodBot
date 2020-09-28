@@ -1,18 +1,19 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 
-const RaidDetail = ({item, key}) => {
+const RaidDetail = ({item}) => {
 	const {viewStyle, textStyle} = styles;
 	if (item === null) {
 		return <Text> Loading </Text>;
 	} else {
 		return (
-			<View style={viewStyle} key={key}>
-				<Text style={textStyle}>{item.name}</Text>
-				<Text style={textStyle}>{item.raid}</Text>
-				<Text style={textStyle}>{item.date}</Text>
-				<Text style={textStyle}>{item.time}</Text>
-				<Text style={textStyle}>{item.rules}</Text>
+			<View style={viewStyle}>
+				<Text style={textStyle}>Character Name: {item.name}</Text>
+				<Text style={textStyle}>Title: {item.title}</Text>
+				<Text style={textStyle}>Raid: {item.raid}</Text>
+				<Text style={textStyle}>Date: {item.date}</Text>
+				<Text style={textStyle}>Time: {item.time}</Text>
+				<Text style={textStyle}>Rules: {item.rules}</Text>
 			</View>
 		);
 	}
